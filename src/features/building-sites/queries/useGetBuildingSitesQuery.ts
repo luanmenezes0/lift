@@ -3,5 +3,9 @@ import { BuildingSite } from "../models";
 import { client } from "../../../lib/client";
 
 export default function useGetBuildingSitesQuery() {
-  return useQuery<BuildingSite[]>("buildingSites", () => client("building-sites"));
+  const qs = new URLSearchParams({ _sort: "id" });
+
+  return useQuery<BuildingSite[]>("buildingSites", () =>
+    client(`building-sites?${qs}`)
+  );
 }

@@ -12,8 +12,11 @@ import {
   Thead,
   Tr,
   VStack,
+  Tooltip,
 } from "@chakra-ui/react";
 import { useAtom } from "jotai";
+import { useResetAtom } from "jotai/utils";
+
 import { buildingSiteModalAtom } from "../atoms/buildingSiteModalAtom";
 import { deleteBuildingSiteAtom } from "../atoms/deleteBuildingSiteAtom";
 import useGetBuildingSitesQuery from "../queries/useGetBuildingSitesQuery";
@@ -26,12 +29,15 @@ export default function BuildingSites() {
   const [dialogState, setDialogState] = useAtom(deleteBuildingSiteAtom);
   const [modalState, setModalState] = useAtom(buildingSiteModalAtom);
 
-  function onOpenDeleteDialog(id: number) {
-    setDialogState({ id, show: true });
+  const resetDialogState = useResetAtom(deleteBuildingSiteAtom);
+  const resetModalState = useResetAtom(buildingSiteModalAtom);
+
+  function onOpenDeleteDialog(id: number, description: string) {
+    setDialogState({ id, show: true, description });
   }
 
-  function onCloseBuildingSiteModal() {
-    setModalState({ show: false, id: null, editMode: false });
+  function onOpenModalForEdition(id: number) {
+    setModalState({ show: true, id, editMode: true });
   }
 
   return (
@@ -49,6 +55,7 @@ export default function BuildingSites() {
         </HStack>
 
         {isLoading && <Spinner />}
+
         <Table variant="simple">
           <Thead>
             <Tr>
@@ -71,24 +78,25 @@ export default function BuildingSites() {
                   <Td>{bs.city}</Td>
                   <Td>
                     <HStack spacing={2}>
-                      <IconButton
-                        variant="ghost"
-                        aria-label="Deletar Obra"
-                        icon={<DeleteIcon />}
-                        onClick={() => onOpenDeleteDialog(bs.id)}
-                      />
-                      <IconButton
-                        variant="ghost"
-                        aria-label="Editar Obra"
-                        icon={<EditIcon />}
-                        onClick={() => {
-                          setModalState({
-                            show: true,
-                            id: bs.id,
-                            editMode: true,
-                          });
-                        }}
-                      />
+                      <Tooltip label="Editar Obra">
+                        <IconButton
+                          variant="ghost"
+                          aria-label="Editar Obra"
+                          icon={<EditIcon />}
+                          onClick={() => onOpenModalForEdition(bs.id)}
+                        />
+                      </Tooltip>
+
+                      <Tooltip label="Deletar Obra">
+                        <IconButton
+                          variant="ghost"
+                          aria-label="Deletar Obra"
+                          icon={<DeleteIcon />}
+                          onClick={() =>
+                            onOpenDeleteDialog(bs.id, bs.description)
+                          }
+                        />
+                      </Tooltip>
                     </HStack>
                   </Td>
                 </Tr>
@@ -99,15 +107,13 @@ export default function BuildingSites() {
 
       {modalState.show && (
         <BuildingSitesModal
-          onClose={onCloseBuildingSiteModal}
+          onClose={resetModalState}
           editMode={modalState.editMode}
         />
       )}
 
       {dialogState.show && (
-        <DeleteBuildingSiteDialog
-          onClose={() => setDialogState({ show: false, id: null })}
-        />
+        <DeleteBuildingSiteDialog onClose={resetDialogState} />
       )}
     </>
   );

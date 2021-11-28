@@ -1,4 +1,4 @@
-import { atom } from "jotai";
+import { atomWithReset } from "jotai/utils";
 
 interface BuildingSiteModalAtom {
   show: boolean;
@@ -6,7 +6,7 @@ interface BuildingSiteModalAtom {
   id: number | null;
 }
 
-export const buildingSiteModalAtom = atom<BuildingSiteModalAtom>({
+export const buildingSiteModalAtom = atomWithReset<BuildingSiteModalAtom>({
   show: false,
   editMode: false,
   id: null,

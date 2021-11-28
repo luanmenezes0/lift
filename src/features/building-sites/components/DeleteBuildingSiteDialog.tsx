@@ -21,7 +21,7 @@ export default function DeleteBuildingSiteDialog(props: {
 
   const cancelRef = useRef<HTMLButtonElement | null>(null);
 
-  const [{ id }] = useAtom(deleteBuildingSiteAtom);
+  const [{ id, description }] = useAtom(deleteBuildingSiteAtom);
 
   const deleteBuldingSite = useDeleteBuildingSiteMutation();
 
@@ -39,7 +39,7 @@ export default function DeleteBuildingSiteDialog(props: {
 
           <AlertDialogBody>
             <VStack align="start">
-              <Text>{id}</Text>
+              <Text as="i">{description}</Text>
               <Text>Tem certeza? Você não pode desfazer essa ação depois.</Text>
             </VStack>
           </AlertDialogBody>
