@@ -4,4 +4,5 @@ export interface BuildingSite {
   city: string;
   description: string;
   district: string;
+  status: "ativo" | "inativo";
 }

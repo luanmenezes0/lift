@@ -7,7 +7,7 @@ export default function useEditBuildingSitesMutation() {
   const queryClient = useQueryClient();
 
   return useMutation(
-    (bs: BuildingSite) =>
+    (bs: Partial<BuildingSite>) =>
       client(`building-sites/${bs.id}`, {
         body: JSON.stringify(bs),
         method: "PUT",
