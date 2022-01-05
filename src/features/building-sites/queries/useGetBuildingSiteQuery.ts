@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
-import { BuildingSite } from "../models";
+
 import { client } from "../../../lib/client";
+import { BuildingSite } from "../models";
 
 export default function useGetBuildingSiteQuery(id: number) {
   return useQuery<BuildingSite>(

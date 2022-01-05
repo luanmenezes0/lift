@@ -1,11 +1,13 @@
-import { atom } from "jotai";
+import { atomWithReset } from "jotai/utils";
 
 interface DeleteBuildingSiteAtom {
   show: boolean;
   id: number | null;
+  description: string;
 }
 
-export const deleteBuildingSiteAtom = atom<DeleteBuildingSiteAtom>({
+export const deleteBuildingSiteAtom = atomWithReset<DeleteBuildingSiteAtom>({
   show: false,
   id: null,
+  description: "",
 });
