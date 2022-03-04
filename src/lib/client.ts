@@ -1,3 +1,9 @@
+import ky from "ky";
+
+const url = "http://localhost:1337/";
+
+const api = ky.create({ prefixUrl: url });
+
 export async function client(
   endpoint: string,
   { body, ...customConfig }: RequestInit = {}
@@ -25,3 +31,5 @@ export async function client(
     return Promise.reject(new Error(errorMessage));
   }
 }
+
+export default api;
