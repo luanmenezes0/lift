@@ -2226,11 +2226,6 @@ nookies@^2.5.2:
     cookie "^0.4.1"
     set-cookie-parser "^2.4.6"
 
-nswag@^13.15.5:
-  version "13.15.10"
-  resolved "https://registry.yarnpkg.com/nswag/-/nswag-13.15.10.tgz#307a021cdc2fed17fe61817d6fe1c44a4b9935c8"
-  integrity sha512-gpKMDmpW6e0V/YgKvsieCRL30j8gl8KkJVUQ5htxhp8teet9U7x6CuR2EQEeFq0ruRlF9JijteHsysEqtRycSQ==
-
 object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
@@ -2471,13 +2466,6 @@ react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
-
-react-query-swagger@^13.16.1:
-  version "13.16.1"
-  resolved "https://registry.yarnpkg.com/react-query-swagger/-/react-query-swagger-13.16.1.tgz#6ea3734d1778fd9457faf49785494ebc7159d13e"
-  integrity sha512-YWUHysgYT/IDK63EAQhsHEE/SRm8k3Jjt8a50D9ftc2I3NxCt4Hj3o7B2oFJsbjCB4aPKngXFF+jd2Mo/eRr1Q==
-  dependencies:
-    nswag "^13.15.5"
 
 react-query@^3.34.3:
   version "3.34.16"

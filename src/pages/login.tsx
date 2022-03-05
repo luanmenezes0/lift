@@ -8,7 +8,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import useAuth from "../features/contexts/authContext";
+import useAuth from "../features/auth/contexts/authContext";
 
 type LoginForm = { email: string; password: string };
 

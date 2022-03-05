@@ -1817,7 +1817,7 @@
         ]
       }
     },
-    "/connect/*": {
+    "/connect/": {
       "get": {
         "deprecated": false,
         "description": "Connect a provider",

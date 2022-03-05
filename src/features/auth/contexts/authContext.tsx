@@ -2,8 +2,11 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { setCookie, parseCookies } from "nookies";
 import Router from "next/router";
 
-import api from "../../lib/client";
-import useLoginMutation from "../auth/queries/useLoginMutation";
+import api from "../../../lib/client";
+import useLoginMutation from "../queries/useLoginMutation";
+import { FetchQuery } from "../../../api/";
+
+const { useMeQuery } = FetchQuery.Query;
 
 type User = {
   name: string;
@@ -28,6 +31,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   const login = useLoginMutation();
+
+  const { data } = useMeQuery();
 
   const isAuthenticated = !!user;
 

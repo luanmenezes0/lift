@@ -2,7 +2,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import { AuthProvider } from "../features/contexts/authContext";
+import { AuthProvider } from "../features/auth/contexts/authContext";
 import theme from "../theme/theme";
 
 const queryClient = new QueryClient();
