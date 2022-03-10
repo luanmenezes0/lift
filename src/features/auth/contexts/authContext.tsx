@@ -1,12 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { setCookie, parseCookies } from "nookies";
 import Router from "next/router";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
+import { createContext, useContext, useEffect, useState } from "react";
+import { axiosInstance } from "src/lib/axios";
 
-import api from "../../../lib/client";
 import useLoginMutation from "../queries/useLoginMutation";
-import { FetchQuery } from "../../../api/";
-
-const { useMeQuery } = FetchQuery.Query;
+import useGetMeQuery from "../queries/useMeQuery";
 
 type User = {
   name: string;
@@ -21,8 +19,9 @@ type SignInData = {
 
 type AuthContextType = {
   isAuthenticated: boolean;
-  user: User;
+  user: User | null;
   signIn: (data: SignInData) => Promise<void>;
+  signOut: () => void;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
@@ -32,7 +31,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = useLoginMutation();
 
-  const { data } = useMeQuery();
+  const { refetch: getUser } = useGetMeQuery();
 
   const isAuthenticated = !!user;
 
@@ -40,13 +39,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { "token@lift": token } = parseCookies();
 
     if (token) {
-      api("users/me", { headers: { Authorization: `Bearer ${token}` } })
-        .then((res) => res.json())
-        .then(setUser);
-    } else {
-      Router.push("/login");
+      axiosInstance.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${token}`;
+
+      getUser().then(({ data }) => setUser(data));
     }
-  }, []);
+  }, [getUser]);
 
   async function signIn({ email, password }: SignInData) {
     const response = await login.mutateAsync({
@@ -54,23 +53,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       password,
     });
 
-    const { jwt, user } = await response.json();
-    console.log(jwt);
-    console.log(user);
+    const { jwt, user } = response;
 
     setCookie(undefined, "token@lift", jwt, {
+      path: "/",
       maxAge: 60 * 60 * 1, // 1 hour
     });
 
-    // api.defaults.headers["Authorization"] = `Bearer ${token}`;
+    axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
 
     setUser(user);
 
     Router.push("/");
   }
 
+  function signOut() {
+    destroyCookie(null, "token@lift", { path: "/" });
+
+    Router.push("/login");
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

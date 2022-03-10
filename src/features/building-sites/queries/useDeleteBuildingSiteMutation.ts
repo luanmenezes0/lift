@@ -1,15 +1,19 @@
 import { useMutation, useQueryClient } from "react-query";
-import { client } from "../../../lib/client";
+import { customInstance } from "src/lib/axios";
+
+function deleteBuildingSite(id: number) {
+  return customInstance({
+    method: "DELETE",
+    url: `/building-sites/${id}`,
+  });
+}
 
 export default function useDeleteBuildingSiteMutation() {
   const queryClient = useQueryClient();
 
-  return useMutation(
-    (id: number) => client(`building-sites/${id}`, { method: "DELETE" }),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("buildingSites");
-      },
-    }
-  );
+  return useMutation((id: number) => deleteBuildingSite(id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries("buildingSites");
+    },
+  });
 }
