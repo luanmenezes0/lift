@@ -11,7 +11,7 @@ import BuildingSitesTable from "./BuildingSitesTable";
 import DeleteBuildingSiteDialog from "./DeleteBuildingSiteDialog";
 
 export default function BuildingSites() {
-  const { data, isLoading } = useGetBuildingSitesQuery();
+  const { data, isLoading } = useGetBuildingSitesQuery({ _sort: "id" });
   const editBuildingSite = useEditBuildingSitesMutation();
 
   const [dialogState, setDialogState] = useAtom(deleteBuildingSiteAtom);

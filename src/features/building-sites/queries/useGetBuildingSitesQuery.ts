@@ -1,11 +1,18 @@
 import { useQuery } from "react-query";
+import { customInstance } from "src/lib/axios";
+import { ApiPaginationParams } from "src/types";
 import { BuildingSite } from "../models";
-import { client } from "../../../lib/client";
 
-export default function useGetBuildingSitesQuery() {
-  const qs = new URLSearchParams({ _sort: "id" });
+function getBuildingSites(params?: ApiPaginationParams) {
+  return customInstance<BuildingSite[]>({
+    url: `/building-sites`,
+    method: "get",
+    params,
+  });
+}
 
-  return useQuery<BuildingSite[]>("buildingSites", () =>
-    client(`building-sites?${qs}`)
-  );
+export default function useGetBuildingSitesQuery(params?: ApiPaginationParams) {
+  const keys = [`/building-sites`, ...(params ? [params] : [])];
+
+  return useQuery<BuildingSite[]>(keys, () => getBuildingSites(params));
 }
