@@ -1,4 +1,4 @@
-import { DeleteIcon, EditIcon, SettingsIcon } from "@chakra-ui/icons";
+import { EditIcon, SettingsIcon } from "@chakra-ui/icons";
 import {
   Button,
   HStack,
@@ -13,7 +13,7 @@ import {
   Th,
   Thead,
   Tooltip,
-  Tr,
+  Tr
 } from "@chakra-ui/react";
 import React from "react";
 import { BuildingSite } from "../models";
@@ -66,14 +66,6 @@ export default function BuildingSitesTable(props: BuildingSitesTableProps) {
                     onClick={() => onOpenModalForEdition(bs.id)}
                   />
                 </Tooltip>
-                <Tooltip label="Deletar Obra">
-                  <IconButton
-                    variant="ghost"
-                    aria-label="Deletar Obra"
-                    icon={<DeleteIcon />}
-                    onClick={() => onOpenDeleteDialog(bs.id, bs.description)}
-                  />
-                </Tooltip>
                 <Menu>
                   <MenuButton variant="ghost" as={Button}>
                     <SettingsIcon />
@@ -82,7 +74,11 @@ export default function BuildingSitesTable(props: BuildingSitesTableProps) {
                     <MenuItem onClick={() => onInactivateBuildingSite(bs.id)}>
                       Inativar
                     </MenuItem>
-                    <MenuItem>Deletar</MenuItem>
+                    <MenuItem
+                      onClick={() => onOpenDeleteDialog(bs.id, bs.description)}
+                    >
+                      Deletar
+                    </MenuItem>
                   </MenuList>
                 </Menu>
               </HStack>
